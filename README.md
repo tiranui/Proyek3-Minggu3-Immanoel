@@ -17,8 +17,6 @@ php artisan serve
 
 Buka http://127.0.0.1:8000 — otomatis diarahkan ke `/activities`.
 
-## Route utama
-
 | Method | URI | Nama Route | Fungsi |
 |---|---|---|---|
 | GET | /activities | activities.index | Daftar + filter status |
@@ -29,9 +27,3 @@ Buka http://127.0.0.1:8000 — otomatis diarahkan ke `/activities`.
 | PUT/PATCH | /activities/{activity} | activities.update | Simpan perubahan |
 | DELETE | /activities/{activity} | activities.destroy | Hapus |
 
-## Menjalankan static analysis
-
-```bash
-./vendor/bin/pint
-sonar-scanner -Dsonar.host.url=http://ALAMAT-SONARQUBE -Dsonar.token=TOKEN
-```
