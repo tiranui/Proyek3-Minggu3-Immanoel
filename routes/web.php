@@ -1,16 +1,21 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
-// Task 1: dua route manual (index + show) — diganti menjadi resource route di Task 2.
-// Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
-// Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
-
-// Task 2: resource route menggantikan route manual di atas.
-// Menghasilkan otomatis: index, create, store, show, edit, update, destroy.
 Route::resource('activities', ActivityController::class);
 
-Route::get('/', function () {
-    return redirect()->route('activities.index');
-});
+Route::patch('/activities/{activity}/publish',  [ActivityController::class, 'publish'])
+    ->name('activities.publish');
+Route::patch('/activities/{activity}/complete', [ActivityController::class, 'complete'])
+    ->name('activities.complete');
+
+Route::delete('/categories/{category}', [CategoryController::class, 'destroy'])
+    ->name('categories.destroy');
+Route::patch('/activities/{activity}/to-draft', [ActivityController::class, 'toDraft'])
+    ->name('activities.toDraft');
+    Route::patch('/activities/{id}/restore', [ActivityController::class, 'restore'])
+    ->name('activities.restore');
+
+Route::get('/', fn () => redirect()->route('activities.index'));

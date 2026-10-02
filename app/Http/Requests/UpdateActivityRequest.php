@@ -14,26 +14,30 @@ class UpdateActivityRequest extends FormRequest
 
     public function rules(): array
     {
+        $id = $this->route('activity')?->id;
+
         return [
-            'title' => ['required', 'string', 'min:5', 'max:100'],
-            'description' => ['nullable', 'string', 'max:1000'],
+            'code'          => ['required', 'string', 'max:20',
+                                Rule::unique('activities', 'code')->ignore($id)],
+            'title'         => ['required', 'string', 'min:5', 'max:100'],
+            'description'   => ['required', 'string', 'max:1000'],
             'activity_date' => ['required', 'date'],
-            'category' => ['required', 'string', 'max:50'],
-            'status' => ['required', Rule::in(['Planned', 'Ongoing', 'Done'])],
+            'category_id'   => ['required', 'exists:categories,id'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'Judul kegiatan wajib diisi.',
-            'title.min' => 'Judul minimal 5 karakter.',
-            'title.max' => 'Judul maksimal 100 karakter.',
-            'activity_date.required' => 'Tanggal kegiatan wajib diisi.',
-            'activity_date.date' => 'Tanggal kegiatan tidak valid.',
-            'category.required' => 'Kategori kegiatan wajib diisi.',
-            'status.required' => 'Status kegiatan wajib dipilih.',
-            'status.in' => 'Status hanya boleh Planned, Ongoing, atau Done.',
+            'code.required'          => 'Kode kegiatan wajib diisi.',
+            'code.unique'            => 'Kode kegiatan sudah digunakan.',
+            'title.required'         => 'Judul wajib diisi.',
+            'title.min'              => 'Judul minimal 5 karakter.',
+            'description.required'   => 'Deskripsi wajib diisi.',
+            'activity_date.required' => 'Tanggal wajib diisi.',
+            'activity_date.date'     => 'Tanggal tidak valid.',
+            'category_id.required'   => 'Kategori wajib dipilih.',
+            'category_id.exists'     => 'Kategori tidak valid.',
         ];
     }
 }
